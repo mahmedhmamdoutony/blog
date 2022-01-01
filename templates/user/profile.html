@@ -1,0 +1,180 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+ .wrapper {
+    width: 100%;
+    max-width: 1024px;
+    height: calc(100% - 60px);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.post{
+    border-bottom: 4px dotted rgb(202, 202, 202);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    padding: 2rem 0;
+    
+    
+} 
+@media screen and (max-width:769px) {
+    .comments{
+        flex-direction: column;
+    }
+}
+.comments{
+    width: 100%;
+    background: #fff;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-around;
+    border-radius: .5rem;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    margin-bottom:3rem
+}
+.wrap-input input{
+    width: 100%;
+    height: 34px;
+    margin-bottom: 1rem;
+    border: 1px solid rgb(212, 212, 212);
+}
+.wrap-input textarea{
+    width: 100%;
+    border: 1px solid rgb(212, 212, 212);
+    margin-bottom: 1rem;
+    max-width: 800px;
+}
+label{
+    text-transform: capitalize;
+}
+input{
+    font-family: Poppins,sans-serif;
+}
+.submit{
+    width: 100%;
+    padding: .5rem 0;
+    background: #444;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.submit:hover{
+   opacity: .9;
+
+}
+.some_comment{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.some_comment h3{
+    text-transform: capitalize;
+}
+.wrap_comment{
+    width: 100%;
+    background: #f3f4f5;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-right: 1rem;
+    padding: 1rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+.wrap_comment h4 ,h5{
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.wrap_comment p{
+    font-size: .9rem;
+    line-height: 1.4;
+}
+.see-all{
+    margin-top:1rem;
+    margin-bottom:1rem;
+}
+.img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 2rem;
+
+}
+.round-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+    object-fit: cover;
+    border: 6px double #f3f4f5;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+}
+.round-img{
+    width:200px;
+    height:200px;
+
+}
+.create{
+
+      margin-bottom: 1rem;
+      border:1px solid #444;
+      width: 200px;
+      background: #fff;
+      padding: 5px 0;
+      margin:0 auto;
+      text-align:center;
+      
+
+}
+
+</style>
+ <div class="content-post">
+      <div class="post">
+          <div class="img">
+              <div class="round-img" >
+                   <img src="{{profile.picture.url}}" alt="">
+              </div>
+          </div>
+                <h3 style="text-transform:capitalize;">{{profile.user.username}}</h3>
+                <h4 style="font-weight:300; text-transform:capitalize;">{{profile.user.first_name}} {{profile.user.last_name}}</h4>
+                    <h4 style="font-weight:300;">{{profile.user.email}}</h4>
+                    <a href="{% url 'user:update_profile' %}"><i class="fas fa-edit"></i>edit Profile</a>
+      </div>
+<div class="comments">
+            <div class="some_comment">
+                <h3>you have ({{post_pag.count}}) all posts </h3>
+                {% for post in posts %}
+                <div class="wrap_comment">
+                    <h3>{{post.title}}</h3>
+                    <h5>published at : {{post.publish_date|date:'Y - m - d'}} </h5>
+                    <p>
+                        {{post.content|truncatechars:250}}
+                        <a href="{% url 'user:show_post_foruser' post.id %}"><i class="fas fa-arrow-right"></i> read more</a>
+                    </p>
+                </div>
+                {% empty %}
+                   <div class="wrap_comment">
+                    <h4>you have not type eny post yet</h4>
+                </div>
+                {% endfor %}
+                <a href="{% url 'user:all_post_user' user.id %}" class="see-all"><i class="fas fa-reply-all"></i> see all post you have  <i class="fas fa-reply-all"></i></a>
+                <a class="create" href="{% url 'blog:new_post' %}">Create New Post <i class="fas fa-pen-square"></i></a>
+            </div> 
+      </div>
+ 
+{% endblock content %}
+
+{% block side %}
+{% include 'paginations.html' with page=posts %}
+{% endblock side %}
+
+

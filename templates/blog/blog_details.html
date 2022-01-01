@@ -1,0 +1,170 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+ .wrapper {
+    width: 100%;
+    max-width: 1024px;
+    height: calc(100% - 60px);
+    display: grid;
+    grid-template-columns: 1fr;
+}
+.post img{
+    width:100%;
+    height: 100%;
+    
+    object-position: center;
+    object-fit: cover;
+    display: block;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+    border-bottom: 4px dotted rgb(202, 202, 202);
+    border:6px double #eee;
+    
+    
+}
+@media screen and (max-width:769px) {
+    .comments{
+        flex-direction: column;
+    }
+}
+.comments{
+    width: 100%;
+    background: #fff;
+    padding: 2rem;
+    display: flex;
+    justify-content: space-around;
+    border-radius: .5rem;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    margin-bottom:3rem
+}
+.wrap-input input{
+    width: 100%;
+    height: 34px;
+    margin-bottom: 1rem;
+    border: 1px solid rgb(212, 212, 212);
+}
+.wrap-input textarea{
+    width: 100%;
+    border: 1px solid rgb(212, 212, 212);
+    margin-bottom: 1rem;
+    max-width: 800px;
+}
+label{
+    text-transform: capitalize;
+}
+input{
+    font-family: Poppins,sans-serif;
+}
+.submit{
+    width: 100%;
+    padding: .5rem 0;
+    background: #444;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.submit:hover{
+   opacity: .9;
+
+}
+.some_comment{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.some_comment h3{
+    text-transform: capitalize;
+}
+.wrap_comment{
+    width: 100%;
+    background: #f3f4f5;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-right: 1rem;
+    padding: 1rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+.wrap_comment h4 ,h5{
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.wrap_comment p{
+    font-size: .9rem;
+    line-height: 1.4;
+}
+.see-all{
+    margin-top:1rem;
+    margin-bottom:1rem;
+}
+
+</style>
+ <div class="content-post">
+      <div class="post">
+          <img src="{{posts.photo.url}}" alt="">
+          <div class="main-post">
+         <h3 class="title"> {{posts.title}}</h3>
+        <p class="author">written by : {{posts.created_by}}</p>
+        <p class="publish">published at : {{posts.publish_date|date:'Y - M - d'}}</p>
+        <p class="text">
+        {{posts.content}}<br/><br>
+        <a href="{% url 'blog:blog_home' %}"><i class="fa fa-arrow-left" aria-hidden="true"></i>back to home </a>
+        </p>
+          </div>
+      </div>
+   
+<div class="comments">
+            <div class="some_comment">
+                <h3>comments of some people have take action</h3>
+                {% for comment in comments|slice:3 %}
+                <div class="wrap_comment">
+                    <h4>{{comment.name}}</h4>
+                    <h5>comment at : {{comment.comment_date|date:'Y - M - d'}}</h5>
+                    <p>{{comment.content_commnet|truncatechars:80}}
+                        <a href="{% url 'blog:comment_details' comment.id %}"><i class="fas fa-arrow-right"></i>See More ...</a>
+                    </p>
+                </div>
+                {% empty %}
+                        <div class="wrap_comment">
+                    <h4>no comment yet</h4>
+                </div>
+                {% endfor %}
+                <a href="{% url 'blog:comment_all' posts.id %}" class="see-all"> <i class="fas fa-reply-all"></i> see all comment about this atricle <i class="fas fa-reply-all"></i></a>
+            </div> 
+            <form action="" method='post'>
+            {% csrf_token %}
+            <div class="wrap-input">
+             <label for="username">username</label>
+             {{form.name}}
+            </div>
+            <div class="wrap-input">
+             <label for="email">email</label>
+                {{form.email}}
+                    </div>
+            <div class="wrap-input">
+             <label for="comment">comment</label>
+           {{form.content_commnet}}
+            </div>
+            <input type="submit" value="Submit Comment" class="submit">
+            
+        </form> 
+      </div>
+ 
+{% endblock content %}
+
+{% block side %}
+
+{% endblock side %}
+
+
+
+
+

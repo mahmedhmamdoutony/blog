@@ -1,0 +1,76 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .img-user{
+    width:75px;
+    height: 75px;
+    border-radius: 50%;
+    align-self: flex-start;
+    margin-left: 1rem;
+    
+  }
+
+
+  .img-user img{
+    width:100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 4px solid #eee;
+  }
+  .content-post{
+    max-width:700px
+  }
+</style>
+    <div class="content-post">
+        {% for post in posts %}
+      <div class="post">
+         <img src="{{post.photo.url}}" alt="">
+         <div class="main-post">
+         <div class="img-user">
+          <img  src="{{post.created_by.profile.picture.url}}" alt=""/> 
+         </div>
+          <h3 class="title"> {{post.title}}</h3>
+        <p class="author">written by : {{post.created_by}}</p>
+        <p class="publish">published at : {{post.publish_date|date:'Y - M - d'}}</p>
+        <p class="text">
+        {{post.content|truncatewords:30}}<a href="{% url 'blog:blog_details' post.id %}">reade more ...</a>
+        </p>
+          </div>
+ 
+      </div>
+   {% endfor %}
+     {% include '../paginations.html' with page=posts %}   
+    </div>
+ 
+{% endblock content %}
+
+{% block side %}
+    <div class="side-post">
+      <h2>make some action</h2>
+      <div class="wrap-side">
+        <div class="side-conent">
+          <h3 class="title">latest post</h3>
+          <ul>
+            {% for sub in sub|slice:5  %}
+            <li><a href="{% url 'blog:blog_details' sub.id %}">{{sub.title}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="side-conent">
+          <h3 class="title">latest comments</h3>
+          <ul>
+            {% for comment in comments|slice:5 %}
+            <li><a href="{% url 'blog:comment_details' comment.id %}">{{comment.content_commnet|truncatechars:20}}.... <i class="fa fa-arrow-right" aria-hidden="true"></i></a></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+   
+ 
+{% endblock side %}
+
+

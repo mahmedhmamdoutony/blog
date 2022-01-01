@@ -1,0 +1,142 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+.wrapper {
+    width: 60%;
+    max-width: 1024px;
+    height: calc(100% - 60px);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+}
+
+.comments{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    background: #fff;
+    padding: 2rem;
+    border-radius: .5rem;
+    box-shadow: 1px 3px 5px rgba(0,0,0,0.2);
+    margin: 0 auto;
+    margin-top:3rem;
+}
+.wrap-input input{
+    width: 100%;
+    height: 34px;
+    margin-bottom: 1rem;
+    border: 1px solid rgb(212, 212, 212);
+}
+.wrap-input textarea{
+    width: 100%;
+    border: 1px solid rgb(212, 212, 212);
+    margin-bottom: 1rem;
+    max-width: 800px;
+}
+label{
+    text-transform: capitalize;
+}
+input{
+    font-family: Poppins,sans-serif;
+}
+@media screen and (max-width:769px) {
+   .wrapper {
+    width: 90%;
+    max-width: 1024px;
+    height: calc(100% - 60px);
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+}
+}
+.submit{
+    width: 100%;
+    padding: .5rem 0;
+    background: #444;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+.submit:hover{
+   opacity: .9;
+
+}
+.some_comment{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.some_comment h3{
+    text-transform: capitalize;
+}
+.wrap_comment{
+    width: 100%;
+    background: #f3f4f5;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-right: 1rem;
+    padding: 1rem;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+.wrap_comment h4 ,h5{
+    text-transform: capitalize;
+    font-weight: 500;
+    font-size: 1rem;
+}
+.wrap_comment p{
+    font-size: .9rem;
+    line-height: 1.4;
+}
+.see-all{
+    margin-top:1rem;
+    margin-bottom:1rem;
+}
+
+</style>
+<div class="wrap">
+<div class="comments">
+            <div class="some_comment">
+                <h3>registered page</h3>
+                <a href="{% url 'user:sign_in' %}" class="see-all">aleardy have an account ? sign in <i class="fas fa-user-tag"></i></i></a>
+            </div> 
+            <form action="" method='post'>
+            {% csrf_token %}
+            <div class="wrap-input">
+             <label for="username">username</label>
+             <input type="text" name="username" id="">
+            </div>
+            <div class="wrap-input">
+             <label for="email">email</label>
+             <input type="email" name="email" id="">
+            </div>
+            <div class="wrap-input">
+             <label for="pass1">password</label>
+          <input type="password" name="pass1" id="">
+            </div>
+            <div class="wrap-input">
+             <label for="pass2">repeat password</label>
+        <input type="password" name="pass2" id="">
+            </div>
+            <input type="submit" value="Sign Up" class="submit">
+            
+        </form> 
+      </div>
+</div>
+{% endblock content %}
+
+{% block side %}
+
+{% endblock side %}
+
+
+
+

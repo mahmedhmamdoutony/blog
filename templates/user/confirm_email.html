@@ -1,0 +1,6 @@
+{% autoescape off %}
+welcome to our blog
+hello : {{user}}
+please click the link bellow to activate your account
+http://{{domain}} {% url 'user:active' uidb64=uid token=token %}
+{% endautoescape %}
